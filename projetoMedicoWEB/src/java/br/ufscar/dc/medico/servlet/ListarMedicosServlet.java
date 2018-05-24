@@ -8,14 +8,9 @@ package br.ufscar.dc.medico.servlet;
 import br.ufscar.dc.medico.bean.Medico;
 import br.ufscar.dc.medico.dao.MedicoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +27,9 @@ public class ListarMedicosServlet extends HttpServlet {
     @Resource(name="jdbc/MedicoDBLocal")
     DataSource dataSource;
 
+    
+    @Inject
+    MedicoDAO mdao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,7 +43,7 @@ public class ListarMedicosServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-            MedicoDAO mdao = new MedicoDAO(dataSource);
+//            MedicoDAO mdao = new MedicoDAO(dataSource);
             String especialidade = request.getParameter("especialidade");
             List<Medico> todosMedicos = null;
 

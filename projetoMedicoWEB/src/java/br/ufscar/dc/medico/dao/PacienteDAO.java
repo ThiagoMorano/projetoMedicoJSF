@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -19,6 +21,7 @@ import javax.sql.DataSource;
  *
  * @author 619680
  */
+@RequestScoped
 public class PacienteDAO {
     private final static String CRIAR_PACIENTE_SQL = "insert into Paciente"
             + " (nome, cpf, senha, telefone, sexo, dataDeNascimento)"
@@ -29,11 +32,8 @@ public class PacienteDAO {
             + " from Paciente"
             + " where cpf=?";
     
+    @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
-    
-    public PacienteDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
     
     public Paciente gravarPaciente(Paciente p) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

@@ -8,11 +8,10 @@ package br.ufscar.dc.medico.servlet;
 import br.ufscar.dc.medico.bean.CadastrarNovoPaciente;
 import br.ufscar.dc.medico.bean.Paciente;
 import br.ufscar.dc.medico.bean.Privilegio;
+import br.ufscar.dc.medico.dao.ConsultaDAO;
 import br.ufscar.dc.medico.dao.PacienteDAO;
 import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -22,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
+import javax.inject.Inject;
 
 /**
  *
@@ -33,7 +33,10 @@ public class GravarPacienteServlet extends HttpServlet {
     @Resource(name="jdbc/MedicoDBLocal")
     DataSource dataSource;
 
-
+    @Inject
+    PacienteDAO pdao;
+    @Inject
+    PrivilegioDAO pridao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,7 +53,7 @@ public class GravarPacienteServlet extends HttpServlet {
         CadastrarNovoPaciente cnp = (CadastrarNovoPaciente) request.getSession().getAttribute("novoPaciente");
         request.getSession().removeAttribute("novoPaciente");
         
-        PacienteDAO pdao = new PacienteDAO(dataSource);
+        //PacienteDAO pdao = new PacienteDAO(dataSource);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataNascimento = null;
@@ -69,7 +72,7 @@ public class GravarPacienteServlet extends HttpServlet {
             Privilegio pri = new Privilegio();
             pri.setLogin(cnp.getCpf());
             pri.setPrivilegio(0);
-            PrivilegioDAO pridao = new PrivilegioDAO(dataSource);
+            //PrivilegioDAO pridao = new PrivilegioDAO(dataSource);
             pridao.gravarPrivilegio(pri);
             
             request.setAttribute("mensagem", "Paciente cadastrado.");

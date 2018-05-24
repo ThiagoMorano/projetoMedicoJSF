@@ -6,23 +6,13 @@
 package br.ufscar.dc.medico.servlet;
 
 import br.ufscar.dc.medico.bean.Consulta;
-import br.ufscar.dc.medico.bean.Medico;
-import br.ufscar.dc.medico.bean.Paciente;
 import br.ufscar.dc.medico.bean.Privilegio;
 import br.ufscar.dc.medico.dao.ConsultaDAO;
-import br.ufscar.dc.medico.dao.MedicoDAO;
-import br.ufscar.dc.medico.dao.PrivilegioDAO;
-import br.ufscar.dc.medico.dao.PacienteDAO;
 import br.ufscar.dc.medico.dao.PrivilegioDAO.PrivilegioEnum;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,6 +30,8 @@ public class ListarConsultasServlet extends HttpServlet {
     @Resource(name="jdbc/MedicoDBLocal")
     DataSource dataSource;
     
+    @Inject
+    ConsultaDAO cdao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,7 +51,7 @@ public class ListarConsultasServlet extends HttpServlet {
             if (p != null) {
                 List<Consulta> consultas = null;
                 
-                ConsultaDAO cdao = new ConsultaDAO(dataSource);
+                //ConsultaDAO cdao = new ConsultaDAO(dataSource);
                 // Usuário é Paciente
                 if (p.getPrivilegio() == PrivilegioEnum.PACIENTE.getValor()) {
                     consultas = cdao.listarConsultasPaciente(p.getLogin());

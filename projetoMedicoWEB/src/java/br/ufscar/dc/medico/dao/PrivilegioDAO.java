@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -18,6 +20,7 @@ import javax.sql.DataSource;
  *
  * @author 619680
  */
+@RequestScoped
 public class PrivilegioDAO {
     public enum PrivilegioEnum {
         PACIENTE(0), MEDICO(1), ADMIN(2);
@@ -40,11 +43,8 @@ public class PrivilegioDAO {
             + " from Privilegio"
             + " where login=?";
     
+    @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
-    
-    public PrivilegioDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
     
     public Privilegio gravarPrivilegio(Privilegio p) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

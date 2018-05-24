@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -21,6 +23,7 @@ import javax.sql.DataSource;
  *
  * @author 496227
  */
+@RequestScoped
 public class ConsultaDAO {
     private final static String CRIAR_CONSULTA_SQL = "insert into Consulta"
             + " (cpfPaciente, crmMedico, dataConsulta)"
@@ -49,11 +52,9 @@ public class ConsultaDAO {
             + " cpfPaciente, crmMedico, dataConsulta"
             + " from Consulta";
     
+    @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
     
-    public ConsultaDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
     
     public Consulta gravarConsulta(Consulta c) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

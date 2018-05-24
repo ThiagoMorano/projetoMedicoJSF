@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Formulário para criação de nova consulta</title>
+    </h:head>
+    <h:body>
+        <h1>Nova consulta</h1>
+        <hr />
+        <h:form>
+            Digite os dados da consulta:<br/><br/>
+            
+            CPF do paciente:
+            <h:inputText id="cpf" label ="CPF" required ="true" value="#{novaConsulta.dadosConsulta.cpfPaciente}" />
+            <h:message for="cpf"/>
+            <br/>
+            
+            CRM do médico:
+            <h:inputText id="crm" label ="CRM" required ="true" value="#{novaConsulta.dadosConsulta.crmMedico}" />
+            <h:message for="crm"/>
+            <br/>
+            
+            Data da consulta:
+            <h:inputText id="dataDaConsulta" label ="Data da consulta" required ="true" value="#{novaConsulta.dadosConsulta.dataConsulta}">
+                <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+            </h:inputText>
+            <h:message for="dataDaConsulta"/>
+            <br/>
+            <h:commandButton id="submit" value="Submit" action="confirmarConsulta" />
+            
+        </h:form>
+    </h:body>
+</html>

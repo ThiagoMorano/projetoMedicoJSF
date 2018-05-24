@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +39,8 @@ public class GravarConsultaServlet extends HttpServlet {
     @Resource(name =  "jdbc/MedicoDBLocal")
     DataSource dataSource;
     
+    @Inject
+    ConsultaDAO cdao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -54,7 +57,7 @@ public class GravarConsultaServlet extends HttpServlet {
        NovaConsultaFormBean ncfb = (NovaConsultaFormBean) request.getSession().getAttribute("novaConsulta");
        
        request.getSession().removeAttribute("novaConsulta");
-       ConsultaDAO cdao = new ConsultaDAO(dataSource);
+       //ConsultaDAO cdao = new ConsultaDAO(dataSource);
               
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

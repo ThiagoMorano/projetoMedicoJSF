@@ -61,7 +61,7 @@ public class NovaConsulta implements Serializable {
        FacesContext facesContext = FacesContext.getCurrentInstance();
        Flash flash = facesContext.getExternalContext().getFlash();
        flash.setKeepMessages(true);
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Achou que n„o ia ter consulta? Achou errado, ot·rio"));
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Achou que n√£o ia ter consulta? Achou errado, ot√°rio"));
 
        return recomecar();
    }

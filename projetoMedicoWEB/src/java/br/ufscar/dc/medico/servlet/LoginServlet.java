@@ -13,11 +13,10 @@ import br.ufscar.dc.medico.dao.PacienteDAO;
 import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import br.ufscar.dc.medico.dao.PrivilegioDAO.PrivilegioEnum;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +33,10 @@ public class LoginServlet extends HttpServlet {
 
     @Resource(name =  "jdbc/MedicoDBLocal")
     DataSource dataSource;
+    
+    @Inject PacienteDAO pdao;
+    @Inject MedicoDAO mdao;
+    @Inject PrivilegioDAO pridao;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,16 +59,16 @@ public class LoginServlet extends HttpServlet {
                 if (isNotNullOrBlank(login) && isNotNullOrBlank(senha)) {
                     String target = "";
                     String senhaSalva = "";
-                    PrivilegioDAO pridao = new PrivilegioDAO(dataSource);
+                    //PrivilegioDAO pridao = new PrivilegioDAO(dataSource);
                     Privilegio pri = pridao.buscarPrivilegio(login);
                     
                     if (pri != null) {
                         if (pri.getPrivilegio() == PrivilegioEnum.PACIENTE.getValor()) {
-                            PacienteDAO pdao = new PacienteDAO(dataSource);
+                            //PacienteDAO pdao = new PacienteDAO(dataSource);
                             Paciente p = pdao.buscarPaciente(login);
                             senhaSalva = p.getSenha();
                         } else if (pri.getPrivilegio() == PrivilegioEnum.MEDICO.getValor()) {
-                            MedicoDAO mdao = new MedicoDAO(dataSource);
+                            //MedicoDAO mdao = new MedicoDAO(dataSource);
                             Medico m = mdao.buscarMedico(login);
                             senhaSalva = m.getSenha();
                         } else if (pri.getPrivilegio() == PrivilegioEnum.ADMIN.getValor()) {

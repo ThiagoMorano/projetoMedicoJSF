@@ -12,12 +12,12 @@ import br.ufscar.dc.medico.bean.NovaConsultaFormBean;
 import br.ufscar.dc.medico.bean.Privilegio;
 import br.ufscar.dc.medico.dao.ConsultaDAO;
 import br.ufscar.dc.medico.dao.MedicoDAO;
-import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import br.ufscar.dc.medico.dao.PrivilegioDAO.PrivilegioEnum;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +36,11 @@ public class CadastrarConsultaServlet extends HttpServlet {
     @Resource(name="jdbc/MedicoDBLocal")
     DataSource dataSource;
     
+    @Inject
+    MedicoDAO mdao;
+    @Inject
+    ConsultaDAO cdao;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,14 +55,14 @@ public class CadastrarConsultaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            MedicoDAO mdao = new MedicoDAO(dataSource);
+            //MedicoDAO mdao = new MedicoDAO(dataSource);
             List<Medico> listaMedicos = mdao.listarTodosMedicos();
             
             if (request.getMethod().equals("POST")) {
                 NovaConsultaFormBean ncfb = new NovaConsultaFormBean();
                 BeanUtils.populate(ncfb, request.getParameterMap());
                 
-                ConsultaDAO cdao = new ConsultaDAO(dataSource);
+                //ConsultaDAO cdao = new ConsultaDAO(dataSource);
                 List<Consulta> consultas = cdao.listarConsultasPacienteEMedico(ncfb.getCrmMedico(),ncfb.getCpfPaciente());
                
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
