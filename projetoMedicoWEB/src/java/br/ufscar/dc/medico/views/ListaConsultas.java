@@ -115,7 +115,7 @@ public class ListaConsultas implements Serializable {
         return "listaConsultas";
     }
     
-    public void procurarUsuario() throws NamingException {
+    public void procurarUsuario() {
         try {
             this.listaConsultas = null;
             
@@ -141,13 +141,13 @@ public class ListaConsultas implements Serializable {
                         }
                     }
 
-                    if (this.listaConsultas != null) {
-                        this.estado = LoginSM.logou();
-                    }
+                    this.estado = LoginSM.logou();
                 }
             }
         } catch (SQLException e) {
             System.out.println(e);
+        } catch (NamingException e1) {
+            System.out.println(e1);
         }
     }
 }

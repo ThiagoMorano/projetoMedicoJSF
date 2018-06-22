@@ -6,6 +6,8 @@
 package br.ufscar.dc.medico.views;
 
 import br.ufscar.dc.medico.bean.Medico;
+import br.ufscar.dc.medico.bean.Privilegio;
+import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import br.ufscar.dc.medico.dao.MedicoDAO;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -33,9 +35,11 @@ public class NovoMedico implements Serializable {
     DataSource dataSource;
 
     Medico dadosMedico;
-    //UsuarioDAO usuarioDao;
+    
     @Inject
     MedicoDAO medicoDao;
+    @Inject
+    PrivilegioDAO privilegioDao;
 
     UIInput crmInput;
     UIInput senhaInput;
@@ -123,6 +127,10 @@ public class NovoMedico implements Serializable {
 
    public String gravarMedico() throws SQLException, NamingException {
        medicoDao.gravarMedico(dadosMedico);
+       Privilegio p = new Privilegio();
+       p.setLogin(dadosMedico.getCrm());
+       p.setPrivilegio(PrivilegioDAO.PrivilegioEnum.MEDICO.getValor());
+       privilegioDao.gravarPrivilegio(p);
        FacesContext facesContext = FacesContext.getCurrentInstance();
        Flash flash = facesContext.getExternalContext().getFlash();
        flash.setKeepMessages(true);

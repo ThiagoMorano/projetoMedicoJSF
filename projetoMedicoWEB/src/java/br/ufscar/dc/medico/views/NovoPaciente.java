@@ -6,7 +6,10 @@
 package br.ufscar.dc.medico.views;
 
 import br.ufscar.dc.medico.bean.Paciente;
+import br.ufscar.dc.medico.bean.Privilegio;
 import br.ufscar.dc.medico.dao.PacienteDAO;
+import br.ufscar.dc.medico.dao.PrivilegioDAO;
+import br.ufscar.dc.medico.dao.PrivilegioDAO.PrivilegioEnum;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.annotation.Resource;
@@ -33,8 +36,9 @@ public class NovoPaciente implements Serializable {
     @Resource(name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
     
-    @Inject
-    PacienteDAO pacienteDao;
+    @Inject PacienteDAO pacienteDao;
+    
+    @Inject PrivilegioDAO privilegioDao;
 
     Paciente dadosPaciente;
     String mensagem;
@@ -138,6 +142,11 @@ public class NovoPaciente implements Serializable {
 
     public String gravarPaciente() throws SQLException, NamingException {
         pacienteDao.gravarPaciente(dadosPaciente);
+        
+        Privilegio p = new Privilegio();
+        p.setLogin(dadosPaciente.getCpf());
+        p.setPrivilegio(PrivilegioEnum.PACIENTE.getValor());
+        privilegioDao.gravarPrivilegio(p);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Flash flash = facesContext.getExternalContext().getFlash();
         flash.setKeepMessages(true);
