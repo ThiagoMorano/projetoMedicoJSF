@@ -13,8 +13,8 @@
     <h:body>
         <ui:composition template="./template.xhtml">
             <ui:define name="content">
-                <div class="row">
-                <form class="form-horizontal #{listaConsultas.estado.mostraFormLogin?'':'hidden'}" jsf:id="formLogin">
+                <h:form>
+                    <div class="login-form #{listaConsultas.estado.mostraFormLogin?'':'hidden'}">
                         <div class="form-group">
                             <div class="alert #{novoPalpite.mensagem.tipoMensagem}" jsf:id="mensagem">
                                 #{novoPalpite.mensagem.texto}
@@ -28,7 +28,7 @@
                                    jsf:binding="#{listaConsultas.loginInput}"/>
                                 <h:message for="cpf" class="text text-danger"/>
                             </div>
-                            
+
                             <label class="col-sm-2 control-label" for="senha">Senha:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control"
@@ -46,16 +46,14 @@
                                     Entrar
                                     <f:ajax execute="@form"
                                             render="@form"
-                                            update="consultasTable"
                                             onevent="monitorarAjax"
                                             listener="#{listaConsultas.procurarUsuario}" />
                                 </button>
                             </div>
                         </div>
-                </form>
-                </div>
-                <h:form class="#{listaConsultas.estado.mostraPaginaAutenticada?'':'hidden'}">
+                    </div>
                     <p:dataTable id="dataTableConsultas"
+                                 class="#{listaConsultas.estado.mostraPaginaAutenticada?'':'hidden'}"
                                  summary="Consultas marcadas"
                                  value="#{listaConsultas.listaConsultas}"
                                  var="consulta"
