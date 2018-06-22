@@ -49,9 +49,38 @@ public class NovoPaciente implements Serializable {
     UIInput cpfInput;
     UIInput sexoInput;
     UIInput dataDeNascimentoInput;
-    
+    UIInput loginInput;
+    UIInput loginSenhaInput;
+
+    LoginSM estado;
+
+    public UIInput getLoginInput() {
+        return loginInput;
+    }
+
+    public void setLoginInput(UIInput loginInput) {
+        this.loginInput = loginInput;
+    }
+
+    public UIInput getLoginSenhaInput() {
+        return loginSenhaInput;
+    }
+
+    public void setLoginSenhaInput(UIInput loginSenhaInput) {
+        this.loginSenhaInput = loginSenhaInput;
+    }
+
+    public LoginSM getEstado() {
+        return estado;
+    }
+
+    public void setEstado(LoginSM estado) {
+        this.estado = estado;
+    }
+ 
     public NovoPaciente() {
         dadosPaciente = new Paciente();
+        estado = LoginSM.inicio();
     }
     
     public UIInput getNomeInput() {
@@ -132,6 +161,30 @@ public class NovoPaciente implements Serializable {
             ((UIInput) toValidate).setValid(false);
             FacesMessage message = new FacesMessage("CPF não pode ser vazio");
             context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void procurarUsuario() {
+        try {            
+            String login = (String) loginInput.getValue();
+            String senha = (String) loginSenhaInput.getValue();
+            if (senha != null && login != null) {
+                Privilegio p = privilegioDao.buscarPrivilegio(login);
+                
+                if (p != null) {
+                    if (p.getPrivilegio() == PrivilegioDAO.PrivilegioEnum.ADMIN.getValor()) {
+                        if ("coutinho".equals(senha)) {
+                            this.estado = LoginSM.logou();
+                        } else {
+                            mensagem = "Cadastro não encontrado! Contate um administrador.";
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (NamingException e1) {
+            System.out.println(e1);
         }
     }
 

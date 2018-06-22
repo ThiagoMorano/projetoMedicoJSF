@@ -11,9 +11,49 @@
                 <div class="row">
                 <div class="col-lg-12 text-center">
                     <h4>Novo médico</h4>
-                    <form class="form-horizontal" jsf:id="formPaciente">
-                        <div class="alert #{novoMedico.mensagem.tipoMensagem}" jsf:id="mensagem">
-                            #{novoMedico.mensagem.texto}
+                    <form class="form-horizontal #{novoMedico.estado.mostraFormLogin?'':'hidden'}" jsf:id="formLogin">
+                        <div class="alert" jsf:id="mensagem">
+                            #{novoMedico.mensagem}
+                        </div>
+                        <div class="login-form ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="login">Login:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="login" 
+                                       jsf:label="Login" 
+                                       jsf:required ="true"
+                                       jsf:binding="#{novoMedico.loginInput}"/>
+                                    <h:message for="login" class="text text-danger"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="loginsenha">Senha:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="loginsenha" 
+                                       jsf:label="Senha" 
+                                       jsf:required ="true"
+                                       jsf:binding="#{novoMedico.loginSenhaInput}"/>
+                                    <h:message for="loginsenha"/>
+                                </div>
+                            </div>
+                            <div class="form-group"> 
+                                <div class="col-sm-12">
+                                    <button class="btn btn-default"
+                                            jsf:id="enviar">
+                                        Entrar
+                                        <f:ajax execute="@form"
+                                                render="formPaciente formLogin"
+                                                onevent="monitorarAjax"
+                                                listener="#{novoMedico.procurarUsuario}" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal #{novoMedico.estado.mostraPaginaAutenticada?'':'hidden'}" jsf:id="formPaciente">
+                        <div class="alert #{novoMedico.mensagem}" jsf:id="mensagem">
+                            #{novoMedico.mensagem}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="crm">CRM:</label>

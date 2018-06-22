@@ -149,9 +149,9 @@ public class NovaConsulta implements Serializable {
                     if (p.getPrivilegio() == PrivilegioDAO.PrivilegioEnum.PACIENTE.getValor()) {
                         Paciente pa = pacienteDao.buscarPaciente(login);                        
                         if (pa.getSenha().equals(senha)) {
+                            cpfPacienteInput.setValue(login);
                             this.estado = LoginSM.logou();
                         } else {
-                            cpfPacienteInput.setValue(login);
                             mensagem = "Cadastro não encontrado! Contate um administrador.";
                         }
                     }

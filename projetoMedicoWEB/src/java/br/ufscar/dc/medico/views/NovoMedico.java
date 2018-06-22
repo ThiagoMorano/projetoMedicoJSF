@@ -6,6 +6,7 @@
 package br.ufscar.dc.medico.views;
 
 import br.ufscar.dc.medico.bean.Medico;
+import br.ufscar.dc.medico.bean.Paciente;
 import br.ufscar.dc.medico.bean.Privilegio;
 import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import br.ufscar.dc.medico.dao.MedicoDAO;
@@ -45,8 +46,35 @@ public class NovoMedico implements Serializable {
     UIInput senhaInput;
     UIInput nomeInput;
     UIInput especialidadeInput;
+    UIInput loginInput;
+    UIInput loginSenhaInput;
 
     String mensagem;
+    LoginSM estado;
+
+    public UIInput getLoginInput() {
+        return loginInput;
+    }
+
+    public void setLoginInput(UIInput loginInput) {
+        this.loginInput = loginInput;
+    }
+
+    public UIInput getLoginSenhaInput() {
+        return loginSenhaInput;
+    }
+
+    public void setLoginSenhaInput(UIInput loginSenhaInput) {
+        this.loginSenhaInput = loginSenhaInput;
+    }
+
+    public LoginSM getEstado() {
+        return estado;
+    }
+
+    public void setEstado(LoginSM estado) {
+        this.estado = estado;
+    }
 
     public String getMensagem() {
         return mensagem;
@@ -55,8 +83,6 @@ public class NovoMedico implements Serializable {
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
-    
-    
     
     public UIInput getCrmInput() {
         return crmInput;
@@ -93,6 +119,7 @@ public class NovoMedico implements Serializable {
     
     public NovoMedico() {
         dadosMedico = new Medico();
+        estado = LoginSM.inicio();
     }
 
     public Medico getDadosMedico() {
@@ -124,6 +151,30 @@ public class NovoMedico implements Serializable {
        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
        return "index?faces-redirect=true";
    }
+    
+    public void procurarUsuario() {
+        try {            
+            String login = (String) loginInput.getValue();
+            String senha = (String) loginSenhaInput.getValue();
+            if (senha != null && login != null) {
+                Privilegio p = privilegioDao.buscarPrivilegio(login);
+                
+                if (p != null) {
+                    if (p.getPrivilegio() == PrivilegioDAO.PrivilegioEnum.ADMIN.getValor()) {
+                        if ("coutinho".equals(senha)) {
+                            this.estado = LoginSM.logou();
+                        } else {
+                            mensagem = "Cadastro não encontrado! Contate um administrador.";
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (NamingException e1) {
+            System.out.println(e1);
+        }
+    }
 
    public String gravarMedico() throws SQLException, NamingException {
        medicoDao.gravarMedico(dadosMedico);
