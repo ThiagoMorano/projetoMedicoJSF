@@ -42,6 +42,18 @@ public class NovoMedico implements Serializable {
     UIInput nomeInput;
     UIInput especialidadeInput;
 
+    String mensagem;
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+    
+    
+    
     public UIInput getCrmInput() {
         return crmInput;
     }
