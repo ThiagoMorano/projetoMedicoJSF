@@ -30,7 +30,7 @@ public class MedicoDAO {
             + " values (?,?,?,?)";
     
     private final static String BUSCAR_MEDICO_SQL = "select "
-            + "nome, crm, senha, especialidade "
+            + "id, nome, crm, senha, especialidade "
             + "from Medico "
             + "where crm=?";
     
