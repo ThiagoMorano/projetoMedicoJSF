@@ -2,50 +2,97 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Formulário para cadastro de novo paciente</title>
-    </h:head>
-    <h:body>
-        <h1>Novo paciente</h1>
-        <hr />
-        <h:form>
-            Digite os dados do paciente<br/><br/>
-            
-            CPF:
-            <h:inputText id="cpf" label ="CPF" required ="true" value="#{novoPaciente.dadosPaciente.cpf}"/>
-            <h:message for="cpf"/>
-            <br/>
-            
-            Senha:
-            <h:inputText id="senha" label ="Senha" required ="true" value="#{novoPaciente.dadosPaciente.senha}" />
-            <h:message for="senha"/>
-            <br/>
-                       
-            Nome do paciente:
-            <h:inputText id="nome" label ="Nome" required ="true" value="#{novoPaciente.dadosPaciente.nome}" />
-            <h:message for="nome"/>
-            <br/>
-            
-            Sexo:
-            <h:inputText id="sexo" label ="Sexo" required ="true" value="#{novoPaciente.dadosPaciente.sexo}" />
-            <h:message for="sexo"/>
-            <br/>
-            
-            Data de nascimento:
-            <h:inputText id="dataDeNascimento" label ="Data de nascimento" required ="true" value="#{novoPaciente.dadosPaciente.dataDeNascimento}">
-                <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-            </h:inputText>
-            <h:message for="dataDeNascimento"/>
-
-            Telefone:
-            <h:inputText id="telefone" label ="Telefone" required ="true" value="#{novoPaciente.dadosPaciente.telefone}"/>
-            <h:message for="telefone"/>
-            <br/>
-
-            <br/>
-            <h:commandButton id="submit" value="Submit" action="confirmarPaciente" />
-            
-        </h:form>
-    </h:body>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition template="./template.xhtml">
+        <ui:define name="content">        
+            <h:body>
+                <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h4>Novo paciente</h4>
+                    <form class="form-horizontal" jsf:id="formPaciente">
+                        <div class="alert #{novoPaciente.mensagem.tipoMensagem} #{novoPaciente.mensagem?'':'hidden'}" jsf:id="mensagem">
+                            #{novoPaciente.mensagem.texto}
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="cpf">CPF:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                   jsf:id="cpf" 
+                                   jsf:label="CPF" 
+                                   jsf:required ="true"
+                                   jsf:binding="#{novoPaciente.cpfInput}"
+                                   jsf:value="#{novoPaciente.dadosPaciente.cpf}"/>
+                                <h:message for="cpf" class="text text-danger"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="senha">Senha:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                   jsf:id="senha" 
+                                   jsf:label="Senha" 
+                                   jsf:required ="true"
+                                   jsf:binding="#{novoPaciente.senhaInput}"
+                                   jsf:value="#{novoPaciente.dadosPaciente.senha}" />
+                                <h:message for="senha"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="nome">Nome:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       jsf:id="nome" 
+                                       jsf:label="Nome" 
+                                       jsf:required ="false"
+                                       jsf:binding="#{novoPaciente.nomeInput}"
+                                       jsf:value="#{novoPaciente.dadosPaciente.nome}" />
+                                <h:message for="nome"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            Sexo:
+                            <input type="text" class="form-control"
+                                   jsf:id="sexo" 
+                                   jsf:label="Sexo" 
+                                   jsf:required ="false"
+                                   jsf:binding="#{novoPaciente.sexoInput}"
+                                   jsf:value="#{novoPaciente.dadosPaciente.sexo}" />
+                            <h:message for="sexo"/>
+                            <br/>
+                        </div>
+                        <div class="form-group">
+                            Data de nascimento:
+                            <input type="date" class="form-control"
+                                   jsf:id="dataDeNascimento"
+                                   jsf:label="Data de nascimento"
+                                   jsf:required="false"
+                                   jsf:binding="#{novoPaciente.dataDeNascimentoInput}"
+                                   jsf:value="#{novoPaciente.dadosPaciente.dataDeNascimento}">
+                                <f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+                            </input>
+                            <h:message for="dataDeNascimento"/>
+                        </div>
+                        <div class="form-group">
+                            Telefone:
+                            <input type="text" class="form-control"
+                                   jsf:id="telefone"
+                                   jsf:label="Telefone"
+                                   jsf:required="false"
+                                   jsf:binding="#{novoPaciente.telefoneInput}"
+                                   jsf:value="#{novoPaciente.dadosPaciente.telefone}"/>
+                            <h:message for="telefone"/>
+                            <br/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton id="submit" value="Submit" action="confirmarPaciente" />
+                            <br/>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
 </html>

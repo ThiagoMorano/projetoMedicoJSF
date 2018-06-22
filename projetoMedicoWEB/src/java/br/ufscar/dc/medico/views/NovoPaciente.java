@@ -10,12 +10,15 @@ import br.ufscar.dc.medico.dao.PacienteDAO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.annotation.Resource;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -23,28 +26,44 @@ import javax.sql.DataSource;
  *
  * @author Thiago
  */
+@Named
+@SessionScoped
 public class NovoPaciente implements Serializable {
 
     @Resource(name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
-
-    Paciente dadosPaciente;
-
+    
     @Inject
     PacienteDAO pacienteDao;
 
+    Paciente dadosPaciente;
+    String mensagem;
+
     UIInput nomeInput;
     UIInput senhaInput;
+    UIInput telefoneInput;
     UIInput cpfInput;
     UIInput sexoInput;
     UIInput dataDeNascimentoInput;
-
+    
+    public NovoPaciente() {
+        dadosPaciente = new Paciente();
+    }
+    
     public UIInput getNomeInput() {
         return nomeInput;
     }
 
     public void setNomeInput(UIInput nomeInput) {
         this.nomeInput = nomeInput;
+    }
+    
+    public UIInput getTelefoneInput() {
+        return telefoneInput;
+    }
+
+    public void setTelefoneInput(UIInput telefoneInput) {
+        this.telefoneInput = telefoneInput;
     }
 
     public UIInput getSenhaInput() {
@@ -79,8 +98,23 @@ public class NovoPaciente implements Serializable {
         this.dataDeNascimentoInput = dataDeNascimentoInput;
     }
     
-    
+    public Paciente getDadosPaciente() {
+        return dadosPaciente;
+    }
 
+    public void setDadosPaciente(Paciente dadosPaciente) {
+        this.dadosPaciente = dadosPaciente;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    
     public void validarNome(FacesContext context, UIComponent toValidate, String value) {
         if (value.trim().length() == 0) {
             ((UIInput) toValidate).setValid(false);
