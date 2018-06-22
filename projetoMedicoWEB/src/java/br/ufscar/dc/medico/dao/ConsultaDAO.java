@@ -51,6 +51,9 @@ public class ConsultaDAO {
     private final static String BUSCAR_TODAS_CONSULTAS_SQL = "select"
             + " cpfPaciente, crmMedico, dataConsulta"
             + " from Consulta";
+    private final static String BUSCAR_TODOS_CRM_SQL = "select DISTINCT "
+            + "crmMedico "
+            + "from Consulta";
     
     @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
@@ -166,4 +169,16 @@ public class ConsultaDAO {
         }
     }
     
+    public List<String> listarTodosCrms() throws SQLException {
+        List<String> ret = new ArrayList<>();
+        try (Connection con = dataSource.getConnection();
+            PreparedStatement ps = con.prepareStatement(BUSCAR_TODOS_CRM_SQL)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ret.add(rs.getString("crmMedico"));
+                }
+            }
+        }
+        return ret;
+    }
 }
