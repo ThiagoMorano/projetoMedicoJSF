@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <h:head>
         <title>MedCorp v3.01</title>
     </h:head>
@@ -12,13 +13,12 @@
                 <h1>MedCorp v3.01</h1>
                 <p>Bem-vindo!</p>
             <h:form>
-                <h:commandLink action="medicoForm">Cadastrar Médico</h:commandLink><br/>
-                <h:commandLink action="pacienteForm">Cadastrar Paciente</h:commandLink><br/>
-                <h:commandLink action="#{listaMedicos.verTodosMedicos()}">Lista de médicos</h:commandLink><br/>
-                <h:commandLink action="#">Painel de controle</h:commandLink><br/>
-                <h:commandLink action="consultaForm">Marcar consulta</h:commandLink><br/>
-                <h:commandLink action="#{listaConsultas.verTodasConsultas()}">Listar minhas consultas</h:commandLink><br/>
-                <h:commandLink action="#{listaConsultas.verTodasConsultas(crm)}">Listar minhas consultas (médico)</h:commandLink><br/>
+                <a jsf:outcome="medicoForm">Cadastrar Médico</a><br/>
+                <a jsf:outcome="pacienteForm">Cadastrar Paciente</a><br/>
+                <a jsf:outcome="#{listaMedicos.verTodosMedicos()}">Lista de médicos</a><br/>
+                <a jsf:outcome="consultaForm">Marcar consulta</a><br/>
+                <a jsf:outcome="#{listaConsultas.verTodasConsultas()}">Listar minhas consultas</a><br/>
+                <a jsf:outcome="#{listaConsultas.verTodasConsultas(crm)}">Listar minhas consultas (médico)</a><br/>
             </h:form>
             </h:body>
         </ui:define>
