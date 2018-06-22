@@ -10,51 +10,93 @@
         <ui:define name="content">        
                 <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h4>Nova consulta</h4>
-                    <form class="form-horizontal" jsf:id="formConsulta">
-                        <div class="alert #{novaConsulta.mensagem.tipoMensagem}" jsf:id="mensagem">
-                            #{novaConsulta.mensagem.texto}
+                    <h4>Nova consulta</h4>                    
+                    <form class="form-horizontal #{novaConsulta.estado.mostraFormLogin?'':'hidden'}" jsf:id="formLogin">
+                        <div class="alert" jsf:id="mensagem">
+                            #{novaConsulta.mensagem}
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="cpf">CPF:</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control"
-                                   jsf:id="cpf" 
-                                   jsf:label="CPF" 
-                                   jsf:required ="true"
-                                   jsf:binding="#{novaConsulta.cpfPacienteInput}"
-                                   jsf:value="#{novaConsulta.dadosConsulta.cpfPaciente}"/>
-                                <h:message for="cpf" class="text text-danger"/>
+                        <div class="login-form ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="login">Login:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="login" 
+                                       jsf:label="Login" 
+                                       jsf:required ="true"
+                                       jsf:binding="#{novaConsulta.loginInput}"/>
+                                    <h:message for="login" class="text text-danger"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="senha">Senha:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="senha" 
+                                       jsf:label="Senha" 
+                                       jsf:required ="true"
+                                       jsf:binding="#{novaConsulta.senhaInput}"/>
+                                    <h:message for="senha"/>
+                                </div>
                             </div>
-                            
-                            <label class="col-sm-2 control-label" for="crm">CRM:</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control"
-                                   jsf:id="crmMedico" 
-                                   jsf:label="CRM" 
-                                   jsf:required ="true"
-                                   jsf:binding="#{novaConsulta.crmMedicoInput}"
-                                   jsf:value="#{novaConsulta.dadosConsulta.crmMedico}"/>
-                                <h:message for="cpf" class="text text-danger"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="dataConsulta">Data da consulta:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control"
-                                       jsf:id="dataConsulta"
-                                       jsf:label="Data da consulta"
-                                       jsf:required="true"
-                                       jsf:binding="#{novaConsulta.dataConsultaInput}"
-                                       jsf:value="#{novaConsulta.dadosConsulta.dataConsulta}">
-                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" />
-                                </input>
-                                <h:message for="dataConsulta"/>
+                            <div class="form-group"> 
+                                <div class="col-sm-12">
+                                    <button class="btn btn-default"
+                                            jsf:id="enviar">
+                                        Entrar
+                                        <f:ajax execute="@form"
+                                                render="formConsulta formLogin"
+                                                onevent="monitorarAjax"
+                                                listener="#{novaConsulta.procurarUsuario}" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">                                
-                                <a id="submit" class="btn btn-default" value="Enviar" jsf:outcome="confirmarConsulta"/>
+                    </form>
+                    <form class="form-horizontal #{novaConsulta.estado.mostraPaginaAutenticada?'':'hidden'}" jsf:id="formConsulta">
+                        <div class="alert" jsf:id="mensagem">
+                            #{novaConsulta.mensagem}
+                        </div>
+                        <div class="consulta-form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="cpf">CPF:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="cpf" 
+                                       jsf:label="CPF"
+                                       jsf:required ="true"
+                                       jsf:binding="#{novaConsulta.cpfPacienteInput}"
+                                       jsf:value="#{novaConsulta.dadosConsulta.cpfPaciente}"/>
+                                    <h:message for="cpf" class="text text-danger"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="crm">CRM:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                       jsf:id="crmMedico" 
+                                       jsf:label="CRM" 
+                                       jsf:required ="true"
+                                       jsf:binding="#{novaConsulta.crmMedicoInput}"
+                                       jsf:value="#{novaConsulta.dadosConsulta.crmMedico}"/>
+                                    <h:message for="cpf" class="text text-danger"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="dataConsulta">Data da consulta:</label>
+                                <div class="col-sm-4">
+                                    <input type="date" class="form-control"
+                                           jsf:id="dataConsulta"
+                                           jsf:label="Data da consulta"
+                                           jsf:required="true"
+                                           jsf:binding="#{novaConsulta.dataConsultaInput}"
+                                           jsf:value="#{novaConsulta.dadosConsulta.dataConsulta}">
+                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+                                    </input>
+                                    <h:message for="dataConsulta"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">                                
+                                    <h:commandButton id="submit" class="btn btn-default" value="Enviar" action="confirmarConsulta"/>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -19,14 +19,14 @@
                             <div class="alert #{novoPalpite.mensagem.tipoMensagem}" jsf:id="mensagem">
                                 #{novoPalpite.mensagem.texto}
                             </div>
-                            <label class="col-sm-2 control-label" for="cpf">CPF:</label>
+                            <label class="col-sm-2 control-label" for="login">Login:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control"
                                    jsf:id="login" 
                                    jsf:label="Login" 
                                    jsf:required ="true"
                                    jsf:binding="#{listaConsultas.loginInput}"/>
-                                <h:message for="cpf" class="text text-danger"/>
+                                <h:message for="login" class="text text-danger"/>
                             </div>
 
                             <label class="col-sm-2 control-label" for="senha">Senha:</label>

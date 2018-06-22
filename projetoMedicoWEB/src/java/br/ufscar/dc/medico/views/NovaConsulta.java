@@ -6,9 +6,13 @@
 package br.ufscar.dc.medico.views; 
 
 import br.ufscar.dc.medico.bean.Consulta;
+import br.ufscar.dc.medico.bean.Medico;
+import br.ufscar.dc.medico.bean.Paciente;
+import br.ufscar.dc.medico.bean.Privilegio;
 import br.ufscar.dc.medico.dao.ConsultaDAO;
 import br.ufscar.dc.medico.dao.MedicoDAO;
 import br.ufscar.dc.medico.dao.PacienteDAO;
+import br.ufscar.dc.medico.dao.PrivilegioDAO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.annotation.Resource;
@@ -34,12 +38,40 @@ import javax.sql.DataSource;
 public class NovaConsulta implements Serializable {
     Consulta dadosConsulta;
     @Inject ConsultaDAO consultaDao;
-
+    @Inject PacienteDAO pacienteDao;
+    @Inject PrivilegioDAO privilegioDao;
     UIInput crmMedicoInput;
     UIInput cpfPacienteInput;
     UIInput dataConsultaInput;
+    UIInput loginInput;
+    UIInput senhaInput;
 
     String mensagem;
+    LoginSM estado;
+
+    public UIInput getLoginInput() {
+        return loginInput;
+    }
+
+    public void setLoginInput(UIInput loginInput) {
+        this.loginInput = loginInput;
+    }
+
+    public UIInput getSenhaInput() {
+        return senhaInput;
+    }
+
+    public void setSenhaInput(UIInput senhaInput) {
+        this.senhaInput = senhaInput;
+    }
+
+    public LoginSM getEstado() {
+        return estado;
+    }
+
+    public void setEstado(LoginSM estado) {
+        this.estado = estado;
+    }
 
     public String getMensagem() {
         return mensagem;
@@ -78,6 +110,7 @@ public class NovaConsulta implements Serializable {
     
     public NovaConsulta() {
         dadosConsulta = new Consulta();
+        estado = LoginSM.inicio();
     }
 
 
@@ -104,4 +137,31 @@ public class NovaConsulta implements Serializable {
 
        return recomecar();
    }
+   
+   public void procurarUsuario() {
+        try {            
+            String login = (String) loginInput.getValue();
+            String senha = (String) senhaInput.getValue();
+            if (senha != null && login != null) {
+                Privilegio p = privilegioDao.buscarPrivilegio(login);
+                
+                if (p != null) {
+                    if (p.getPrivilegio() == PrivilegioDAO.PrivilegioEnum.PACIENTE.getValor()) {
+                        Paciente pa = pacienteDao.buscarPaciente(login);                        
+                        if (pa.getSenha().equals(senha)) {
+                            this.estado = LoginSM.logou();
+                        } else {
+                            cpfPacienteInput.setValue(login);
+                            mensagem = "Cadastro não encontrado! Contate um administrador.";
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (NamingException e1) {
+            System.out.println(e1);
+        }
+    }
+
 }
