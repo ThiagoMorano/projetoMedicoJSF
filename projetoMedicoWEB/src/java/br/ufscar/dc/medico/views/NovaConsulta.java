@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -31,12 +32,50 @@ import javax.sql.DataSource;
 @Named
 @SessionScoped
 public class NovaConsulta implements Serializable {
-
     Consulta dadosConsulta;
     @Inject ConsultaDAO consultaDao;
-   
 
+    UIInput crmMedicoInput;
+    UIInput cpfPacienteInput;
+    UIInput dataConsultaInput;
 
+    String mensagem;
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+    
+    public UIInput getCrmMedicoInput() {
+        return crmMedicoInput;
+    }
+
+    public void setCrmMedicoInput(UIInput crmMedicoInput) {
+        this.crmMedicoInput = crmMedicoInput;
+    }
+
+    public UIInput getCpfPacienteInput() {
+        return cpfPacienteInput;
+    }
+
+    public void setCpfPacienteInput(UIInput cpfPacienteInput) {
+        this.cpfPacienteInput = cpfPacienteInput;
+    }
+
+    public UIInput getDataConsultaInput() {
+        return dataConsultaInput;
+    }
+
+    public void setDataConsultaInput(UIInput dataConsultaInput) {
+        this.dataConsultaInput = dataConsultaInput;
+    }
+    
+    
+    
+    
     public NovaConsulta() {
         dadosConsulta = new Consulta();
     }
@@ -61,7 +100,7 @@ public class NovaConsulta implements Serializable {
        FacesContext facesContext = FacesContext.getCurrentInstance();
        Flash flash = facesContext.getExternalContext().getFlash();
        flash.setKeepMessages(true);
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Achou que não ia ter consulta? Achou errado, otário"));
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Consulta marcada com sucesso!"));
 
        return recomecar();
    }
