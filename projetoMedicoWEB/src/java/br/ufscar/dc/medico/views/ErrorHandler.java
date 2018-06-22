@@ -5,6 +5,10 @@
  */
 package br.ufscar.dc.medico.views;
 
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+
 /**
  *
  * @author Nicholas

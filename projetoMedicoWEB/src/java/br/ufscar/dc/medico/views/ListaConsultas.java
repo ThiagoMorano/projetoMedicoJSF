@@ -10,6 +10,9 @@ import br.ufscar.dc.medico.dao.ConsultaDAO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.naming.NamingException;
 
 /**
