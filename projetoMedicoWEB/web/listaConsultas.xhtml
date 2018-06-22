@@ -5,14 +5,56 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      >
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <h:head>
             <title>Consultas MedCorp</title>
     </h:head>
     <h:body>
         <ui:composition template="./template.xhtml">
             <ui:define name="content">
-                <h:form>
+                <div class="row">
+                <form class="form-horizontal #{listaConsultas.estado.mostraFormLogin?'':'hidden'}" jsf:id="formLogin">
+                        <div class="form-group">
+                            <div class="alert #{novoPalpite.mensagem.tipoMensagem}" jsf:id="mensagem">
+                                #{novoPalpite.mensagem.texto}
+                            </div>
+                            <label class="col-sm-2 control-label" for="cpf">CPF:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                   jsf:id="login" 
+                                   jsf:label="Login" 
+                                   jsf:required ="true"
+                                   jsf:binding="#{listaConsultas.loginInput}"/>
+                                <h:message for="cpf" class="text text-danger"/>
+                            </div>
+                            
+                            <label class="col-sm-2 control-label" for="senha">Senha:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                   jsf:id="senha" 
+                                   jsf:label="Senha" 
+                                   jsf:required ="true"
+                                   jsf:binding="#{listaConsultas.senhaInput}"/>
+                                <h:message for="senha"/>
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            <div class="col-sm-12">
+                                <button class="btn btn-default"
+                                        jsf:id="enviar">
+                                    Entrar
+                                    <f:ajax execute="@form"
+                                            render="@form"
+                                            update="consultasTable"
+                                            onevent="monitorarAjax"
+                                            listener="#{listaConsultas.procurarUsuario}" />
+                                </button>
+                            </div>
+                        </div>
+                </form>
+                </div>
+                <h:form class="#{listaConsultas.estado.mostraPaginaAutenticada?'':'hidden'}">
                     <p:dataTable id="dataTableConsultas"
                                  summary="Consultas marcadas"
                                  value="#{listaConsultas.listaConsultas}"
