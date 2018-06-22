@@ -45,7 +45,7 @@ public class MedicoDAO {
     
     private final static String LISTAR_TODAS_ESPECIALIDADES_SQL = "select DISTINCT "
             + "especialidade "
-            + "from Medic ";
+            + "from Medico ";
     
     @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
