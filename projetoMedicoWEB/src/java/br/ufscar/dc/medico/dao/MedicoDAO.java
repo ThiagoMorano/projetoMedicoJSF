@@ -43,6 +43,10 @@ public class MedicoDAO {
             + "from Medico "
             + "where especialidade=(?)";
     
+    private final static String LISTAR_TODAS_ESPECIALIDADES_SQL = "select DISTINCT "
+            + "especialidade "
+            + "from Medic ";
+    
     @Resource (name = "jdbc/MedicoDBLocal")
     DataSource dataSource;
     
@@ -114,6 +118,19 @@ public class MedicoDAO {
                     m.setEspecialidade(rs.getString("especialidade"));
                     m.setCrm(rs.getString("crm"));
                     ret.add(m);
+                }
+            }
+        }
+        return ret;
+    }
+
+    public List<String> listarTodasEspecialidades() throws SQLException {
+        List<String> ret = new ArrayList<>();
+        try (Connection con = dataSource.getConnection();
+            PreparedStatement ps = con.prepareStatement(LISTAR_TODAS_ESPECIALIDADES_SQL)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ret.add(rs.getString("especialidade"));
                 }
             }
         }
